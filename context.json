@@ -1,0 +1,16 @@
+{
+  "toolchain_dir": "./tools/bin",
+  "cflags": [
+    "-I\"{platform}/lib/include\" -I\"{platform}/lib/include_libraries\"",
+    "-g -Os -w -ffunction-sections -fdata-sections"
+  ],
+  "ldflags": [
+    "-Os -Wl,--gc-sections"
+  ],
+  "ldlibflag": [
+    "-L\"{platform}/lib\"",
+    "-larduino_avr",
+    "-larduino_avr_libraries",
+    "-lmain"
+  ]
+}
