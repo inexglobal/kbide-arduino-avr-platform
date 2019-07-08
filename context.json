@@ -1,16 +1,18 @@
 {
   "toolchain_dir": "./tools/bin",
   "cflags": [
-    "-I\"{platform}/lib/include\" -I\"{platform}/lib/include_libraries\"",
-    "-g -Os -w -ffunction-sections -fdata-sections"
+    "-g -Os -std=gnu11 -ffunction-sections -fdata-sections -MMD -fno-fat-lto-objects",
+    "-I{platform}/sdk/cores/arduino",
+    "-I\"{platform}/lib/include\""
+  ],
+  "cppflags" : [
+    "-g -Os -std=gnu++11 -fpermissive -fno-exceptions -ffunction-sections -fdata-sections -fno-threadsafe-statics -Wno-error=narrowing -MMD",
+    "-I{platform}/sdk/cores/arduino",
+    "-I\"{platform}/lib/include\""
   ],
   "ldflags": [
-    "-Os -Wl,--gc-sections"
+    "-Os -Wl,--gc-sections -lm"
   ],
   "ldlibflag": [
-    "-L\"{platform}/lib\"",
-    "-larduino_avr",
-    "-larduino_avr_libraries",
-    "-lmain"
   ]
 }
