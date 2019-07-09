@@ -2,11 +2,12 @@ const util = require("util");
 const fs = require("fs");
 const path = require("path");
 const execPromise = util.promisify(require("child_process").exec);
-const {default: PQueue} = require('p-queue');
-
 const exec = require('child_process').exec;
 const log = require("./log");
-var engine = Vue.prototype.$engine;
+const engine = Vue.prototype.$engine;
+const {default: PQueue} = engine.util.requireFunc('p-queue');
+
+
 //---- setup dir and config ----//
 var platformName = "arduino-avr";
 var platformDir = `${engine.util.platformDir}/${platformName}`;
@@ -69,7 +70,7 @@ const compileFiles = async function(sources, boardCppOptions, boardcflags, plugi
     debug_opt += G.board_context.cpu_clock ? (" -DF_CPU=" + G.board_context.cpu_clock) : "";
     debug_opt += G.board_context.arduino_version ? (" -DARDUINO=" + G.board_context.arduino_version) : "";
     debug_opt += " -DARDUINO_"+ G.board_context.arch +" -DARDUINO_ARCH_";
-    let finalFiles = [];
+
     console.log(`arduino-avr/compiler.js`);
 	
 	  fs.copyFileSync(`${platformDir}/main.cpp`, `${G.app_dir}/main.cpp`);
@@ -91,8 +92,8 @@ const compileFiles = async function(sources, boardCppOptions, boardcflags, plugi
                });
         }
       } catch (e) {
-        console.error(`[arduino-esp32].compiler.js catch something`, e.error);
-        console.error(`[arduino-esp32].compiler.js >>> `, e);
+        console.error(`[arduino-avr].compiler.js catch something`, e.error);
+        console.error(`[arduino-avr].compiler.js >>> `, e);
         let _e = {
           file: file,
           error: e,
