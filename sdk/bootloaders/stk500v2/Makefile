@@ -1,7 +1,7 @@
 # ----------------------------------------------------------------------------
 # Makefile to compile and link stk500boot bootloader
 # Author: Peter Fleury
-# based on WinAVR Makefile Template written by Eric B. Weddington, Jörg Wunsch, et al.
+# based on WinAVR Makefile Template written by Eric B. Weddington, Jï¿½rg Wunsch, et al.
 #
 # Adjust F_CPU below to the clock frequency in Mhz of your AVR target
 # Adjust BOOTLOADER_ADDRESS to your AVR target
