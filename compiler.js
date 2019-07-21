@@ -147,7 +147,7 @@ function linkObject(ldflags, extarnal_libflags) {
     ? (" -DARDUINO=" + G.board_context.arduino_version)
     : "";
   debug_opt += " -DARDUINO_" + G.board_context.arch + " -DARDUINO_ARCH_";
-  let cmd = `"${G.COMPILER_GCC}" ${flags} ${debug_opt} -o ${G.ELF_FILE} ${obj_files} -L${G.app_dir} -lm"`;
+  let cmd = `"${G.COMPILER_GCC}" ${flags} ${debug_opt} -o ${G.ELF_FILE} ${obj_files} -L${G.app_dir} -lm`;
   return execPromise(ospath(cmd), { cwd: G.process_dir });
 }
 
