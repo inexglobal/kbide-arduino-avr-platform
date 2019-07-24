@@ -20,6 +20,7 @@ const ospath = function(p) {
 };
 
 const getName = (file) => path.basename(file).split(".")[0];
+const getFileName = (file) => path.basename(file);
 
 var G = {};
 
@@ -41,8 +42,10 @@ const setConfig = (context) => {
   G.cppflags = G.cppflags.map(f => f.replace(/\{platform\}/g, platformDir));
   G.ldflags = G.ldflags.map(f => f.replace(/\{platform\}/g, platformDir));
   G.ldlibflag = G.ldlibflag.map(f => f.replace(/\{platform\}/g, platformDir));
+  
   G.core_files = fs.readdirSync(`${platformDir}/sdk/cores/arduino`).filter(
-    f => f.endsWith(".cpp") || f.endsWith(".c"));
+    f => f.endsWith(".cpp") || f.endsWith(".c") || f.endsWith(".s") || f.endsWith(".S"));
+
   G.core_files = G.core_files.map(f => `${platformDir}/sdk/cores/arduino/${f}`);
 
   G.COMPILER_AR = `${platformDir}/${G.toolchain_dir}/avr-ar`;
@@ -112,7 +115,8 @@ const compileFiles = async function(
     };
     for (let i in sources) {
       let file = sources[i];
-      let filename = getName(file);
+      let filename = getFileName(file);
+      //let fn_obj = `${G.app_dir}/${filename}.o`;
       let fn_obj = `${G.app_dir}/${filename}.o`;
       let cmd_c = `"${G.COMPILER_GCC}" ${cppOptions} ${cflags} ${inc_switch} ${debug_opt} -c "${file}" -o "${fn_obj}"`;
       let cmd_cpp = `"${G.COMPILER_CPP}" ${cppOptions} ${cflags} ${inc_switch} ${debug_opt} -c "${file}" -o "${fn_obj}"`;
