@@ -6,7 +6,6 @@ const log = require('./log');
 //---- setup dir ----//
 const engine = Vue.prototype.$engine;
 const G = Vue.prototype.$global;
-
 //-------------------//
 const resolveCode = function(finds,code,res)
 {
@@ -66,7 +65,10 @@ module.exports = {
             if(includedPlugin){
               plugins_includes_switch.push(includedPlugin.sourceIncludeDir);
               let targetCppFile = includedPlugin.sourceIncludeDir + "/" + incFile.replace(".h",".cpp");
-              plugins_sources.push(targetCppFile);
+              if(fs.existsSync(targetCppFile)){
+                plugins_sources.push(targetCppFile);
+              }
+              
             }
           }
         }

@@ -14,5 +14,6 @@
     "-Os -Wl,--gc-sections -lm"
   ],
   "ldlibflag": [
-  ]
+  ],
+  "ARDUINO_VERSION" : 189
 }

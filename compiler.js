@@ -77,9 +77,9 @@ const compileFiles = async function(
     debug_opt += G.board_context.cpu_clock
       ? (" -DF_CPU=" + G.board_context.cpu_clock)
       : "";
-    debug_opt += G.board_context.arduino_version
-      ? (" -DARDUINO=" + G.board_context.arduino_version)
-      : "";
+    
+    debug_opt +=  G.ARDUINO_VERSION ? (" -DARDUINO=" + G.ARDUINO_VERSION) : (G.board_context.arduino_version ? (" -DARDUINO=" + G.board_context.arduino_version) : "");
+
     debug_opt += " -DARDUINO_" + G.board_context.arch + " -DARDUINO_ARCH_";
 
     console.log(`arduino-avr/compiler.js`);
