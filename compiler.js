@@ -176,9 +176,9 @@ function createBin() {
 function flash(port, baudrate, stdio) {
   baudrate = G.board_context.baudrate || baudrate || 115200;
   stdio = stdio || "inherit";
-  let arch = G.arch || "atmega328p";
-  let core = G.core || "arduino";
-  let cmd = `"${G.COMPILER_AVRDUDE}" -C "${G.AVRDUDE_CONFIG}" -p${arch} -c${core} -P${port} -b${baudrate} -D -Uflash:w:${G.BIN_FILE}:i`;
+  let part = G.board_context.mcu || "atmega328p";
+  let protocol = G.board_context.protocol || "arduino";
+  let cmd = `"${G.COMPILER_AVRDUDE}" -C "${G.AVRDUDE_CONFIG}" -p${part} -c${protocol} -P${port} -b${baudrate} -D -Uflash:w:${G.BIN_FILE}:i`;
   return execPromise(ospath(cmd), {
     cwd: G.process_dir,
     stdio
