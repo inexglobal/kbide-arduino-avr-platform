@@ -4,7 +4,7 @@ module.exports = {
     auther : 'Maker Asia',
     website : 'https://github.com/MakerAsia/KBProIDE',
     git : 'https://github.com/MakerAsia/kbide-arduino-avr-platform',
-    version : '1.0.0',
+    version : '1.0.1',
     data : {
         name : 'arduino-avr',
         platform : 'arduino-avr',
