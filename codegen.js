@@ -56,23 +56,25 @@ module.exports = {
         let res = resolveCode(finds,source_code,preinit);
         source_code = res.code;
         let incFiles = res.res["#EXTINC"];
+
         for(let ix in incFiles){
-          let incFileRes = /#include\s*(?:\<|\")(.*?\.h)(?:\>|\")/gm.exec(incFiles[ix]);
-          if(incFileRes){
-            let incFile = incFileRes[1].trim();
+          let incsRex =    /#include\s*(?:\<|\")(.*?\.h)(?:\>|\")/gm;
+          let m;
+          while (m = incsRex.exec(incFiles)) {
+            let incFile = m[1].trim();
             //lookup plugin
             let includedPlugin = pluginInfo.categories.find(obj=> obj.sourceFile.includes(incFile));
-              if(includedPlugin){
-                plugins_includes_switch.push(includedPlugin.sourceIncludeDir);
-                /*let targetCppFile = includedPlugin.sourceIncludeDir + "/" + incFile.replace(".h",".cpp");
-                if(fs.existsSync(targetCppFile)){
-                  plugins_sources.push(targetCppFile);
-                }*/
-                let cppFiles = includedPlugin.sourceFile
-                    .filter(el=>el.endsWith(".cpp") || el.endsWith(".c"))
-                    .map(el=>includedPlugin.sourceIncludeDir + "/" +el);
-                plugins_sources.push(...cppFiles);
-              }
+            if(includedPlugin){
+              plugins_includes_switch.push(includedPlugin.sourceIncludeDir);
+              /*let targetCppFile = includedPlugin.sourceIncludeDir + "/" + incFile.replace(".h",".cpp");
+              if(fs.existsSync(targetCppFile)){
+                plugins_sources.push(targetCppFile);
+              }*/
+              let cppFiles = includedPlugin.sourceFile
+                .filter(el=>el.endsWith(".cpp") || el.endsWith(".c"))
+                .map(el=>includedPlugin.sourceIncludeDir + "/" +el);
+              plugins_sources.push(...cppFiles);
+            }
           }
         }
         let replaceRegex2 = /^\s*[\r\n]/gm;
