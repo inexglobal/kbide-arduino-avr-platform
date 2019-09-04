@@ -106,8 +106,12 @@ function compile(rawCode, boardName, config, cb) {
       let m;
       while (m = incsRex.exec(sourceCode)) {
         let incFile = m[1].trim();
-        //lookup plugin
-        let includedPlugin = pluginInfo.categories.find(obj => obj.sourceFile.includes(incFile));
+        //lookup plugin exist inc file and not added to compiled files.
+        let includedPlugin = pluginInfo.categories.find(
+          obj=>
+            obj.sourceFile.includes(incFile) &&
+            !codeContext.plugins_includes_switch.includes(obj.sourceIncludeDir)
+        );
         if (includedPlugin) {
           codeContext.plugins_includes_switch.push(includedPlugin.sourceIncludeDir);
           let cppFiles = includedPlugin.sourceFile
