@@ -257,8 +257,7 @@ function linkObject(ldflags, extarnal_libflags) {
     : G.ldlibflag.join(" ");
   flags = G.ldflags.join(" ") + " " + ldflags.join(" ");
   let obj_files = fs.readdirSync(G.app_dir).filter(f => f.endsWith(".o"));
-  obj_files = obj_files.map(f => `${G.app_dir}/${f}`);
-  obj_files = obj_files.join(" ");
+  obj_files = obj_files.map(f => `"${G.app_dir}/${f}"`).join(" ");
   let debug_opt = G.board_context.arch
     ? (" -mmcu=" + G.board_context.mcu)
     : "";
@@ -268,7 +267,7 @@ function linkObject(ldflags, extarnal_libflags) {
   debug_opt += G.board_context.arduino_version
     ? (" -DARDUINO=" + G.board_context.arduino_version)
     : "";
-  debug_opt += " -DARDUINO_" + G.board_context.arch + " -DARDUINO_ARCH_";
+  debug_opt += " -DARDUINO_" + G.board_context.arch + " -DARDUINO_ARCH_" + ((G.board_context.arduino_arch) ? G.board_context.arduino_arch : "");
   let cmd = `"${G.COMPILER_GCC}" ${flags} ${debug_opt} -o ${G.ELF_FILE} ${obj_files} -L${G.app_dir} -lm`;
   return execPromise(ospath(cmd), { cwd: G.process_dir });
 }
@@ -276,7 +275,7 @@ function linkObject(ldflags, extarnal_libflags) {
 function archiveProgram(plugins_sources) {
   console.log(`archiving... ${G.ARCHIVE_FILE} `);
   let obj_files = plugins_sources.map(
-    plugin => `${G.app_dir}/${getName(plugin)}.o`).join(" ");
+    plugin => `"${G.app_dir}/${getName(plugin)}.o"`).join(" ");
   var cmd = `"${G.COMPILER_AR}" cru "${G.ARCHIVE_FILE}" ${obj_files}`;
   return execPromise(ospath(cmd), { cwd: G.process_dir });
 }
