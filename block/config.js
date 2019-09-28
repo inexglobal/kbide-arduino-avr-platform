@@ -3,10 +3,12 @@ module.exports = {
                             <block type="arduino_init" deletable="false" x="-100" y="-50">
                             </block><block type="arduino_loop" deletable="false" x="100" y="-50"></block>
                       </xml>`,
+    blocks : [],
     base_blocks : [ // use "blocks : [ " in normally situation but this need to override base block from esp-idf platforms
         {
             name : 'GPIO',
             color : '230',
+            index : 10,
             icon : '/static/icons/icons8_electronics_96px.png',
             blocks : [
                 {
@@ -105,6 +107,7 @@ module.exports = {
         {
             name : 'Time',
             color : '230',
+            index : 20,
             icon : '/static/icons/icons8_Story_Time_96px.png',
             blocks : [
                 {
@@ -143,12 +146,14 @@ module.exports = {
         {
             name : 'Variables',
             color : '230',
+            index : 30,
             icon : '/static/icons/icons8_variable_96px.png',
             custom : 'VARIABLE'
         },
         {
             name : 'Math',
             color : '230',
+            index : 40,
             icon : '/static/icons/calculator.png',
             blocks : [
                 'math_number',
@@ -243,6 +248,7 @@ module.exports = {
         {
             name : 'Logic',
             color : '230',
+            index : 50,
             icon : '/static/icons/icons8_serial_tasks_96px.png',
             blocks : [
                 'controls_if',
@@ -255,6 +261,7 @@ module.exports = {
         {
             name : 'Loops',
             color : '230',
+            index : 60,
             icon : '/static/icons/icons8_repeat_96px.png',
             blocks : [
                 'basic_forever',
@@ -285,46 +292,20 @@ module.exports = {
         {
             name : 'Advanced',
             color : '195',
+            index : 70,
             icon : '/static/icons/icons8_hacker_128px.png',
             blocks : [
                 {
                     type : 'category',
+                    index : 10,
                     name : 'Functions',
                     icon : '/static/icons/icons8_module_96px.png',
                     custom : 'PROCEDURE'
                 },
-                /*{
-                    type : 'category',
-                    name : 'Tasks',
-                    icon : '/static/icons/icons8_exercise_96px.png',
-                    blocks : [
-                        'create task',
-                        'start task',
-                        'stop task'
-                    ]
-                },*/
-                /*{
-                    type : 'category',
-                    name : 'Arrays',
-                    icon : '/static/icons/icons8_stack_96px.png',
-                    blocks : [
-                        'lists_create_empty',
-                        'lists_repeat',
-                        'lists_reverse',
-                        'lists_isEmpty',
-                        'lists_length',
-                        'lists_create_with',
-                        'lists_indexOf',
-                        'lists_getIndex',
-                        'lists_setIndex',
-                        'lists_getSublist',
-                        'lists_sort',
-                        'lists_split',
-                    ]
-                },*/
                 {
                     type : 'category',
                     name : 'Text',
+                    index : 20,
                     icon : '/static/icons/icons8_text_color_96px.png',
                     blocks : [
                         'basic_string',                        
@@ -416,78 +397,8 @@ module.exports = {
                 },
                 {
                     type : 'category',
-                    name : 'WiFi',
-                    icon : '/static/icons/icons8_wifi_router_96px.png',
-                    blocks : [
-                        'wifi_connect',    
-                        'wifi_ap',
-                        /*{
-                            xml : 
-                                `<block type="wifi_http_get">
-                                    <value name="url">
-                                        <shadow type="basic_string">
-                                            <field name="VALUE">Hello world!</field>
-                                        </shadow>
-                                    </value>
-                                </block>`
-                        },
-                        {
-                            xml : 
-                                `<block type="wifi_http_post">
-                                    <value name="url">
-                                        <shadow type="basic_string">
-                                            <field name="VALUE">Hello world!</field>
-                                        </shadow>
-                                    </value>
-                                    <value name="data">
-                                        <shadow type="basic_string">
-                                            <field name="VALUE">Hello world!</field>
-                                        </shadow>
-                                    </value>
-                                </block>`
-                        },*/                   
-                        'wifi_start_server',
-                        'wifi_server_on',
-                        {
-                            xml : 
-                                `<block type="wifi_server_send">
-                                    <value name="text">
-                                        <shadow type="basic_string">
-                                            <field name="VALUE">Hello world!</field>
-                                        </shadow>
-                                    </value>
-                                </block>`
-                        },
-                        
-                        'wifi_get_ip_addr',
-                        'wifi_get_ap_ip_addr',
-                        'wifi_get_arg'
-                    ]
-                },
-                {
-                    type : 'category',
-                    name : 'Bluetooth',
-                    icon : '/static/icons/icons8_bluetooth_2_96px.png',
-                    blocks : [
-                        'bt_start',
-                        {
-                            xml : 
-                                `<block type="bt_send_string">
-                                    <value name="text">
-                                        <shadow type="basic_string">
-                                            <field name="VALUE">Hello world!</field>
-                                        </shadow>
-                                    </value>
-                                </block>`
-                        },
-                        'bt_on_receive',
-                        'bt_read_data',
-                        'bt_read_line'
-                    ]
-                },
-                {
-                    type : 'category',
                     name : 'Serial',
+                    index : 30,
                     icon : '/static/icons/SVG/13.svg',
                     blocks : [
                         'serial_usb_init',

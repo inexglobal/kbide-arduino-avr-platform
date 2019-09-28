@@ -3,7 +3,6 @@ const fs = require("fs");
 const path = require("path");
 const execPromise = util.promisify(require("child_process").exec);
 const exec = require("child_process").exec;
-const log = require("./log");
 const engine = Vue.prototype.$engine;
 const { default: PQueue } = engine.util.requireFunc("p-queue");
 const GB = Vue.prototype.$global;
@@ -14,6 +13,10 @@ let platformName = "arduino-avr";
 let platformDir = `${engine.util.platformDir}/${platformName}`;
 let platformLibDir = `${platformDir}/lib`;
 
+const log = msg => {
+  console.log(`[arduino-avr] : ${msg}`);
+  GB.$emit("compile-log",`[arduino-avr] : ${msg}`);
+};
 
 const ospath = function(p) {
   if (process.platform == "win32") {
@@ -66,7 +69,7 @@ const setConfig = (context) => {
 //=====================================//
 
 function compile(rawCode, boardName, config, cb) {
-  console.log(`[kbpro] compiler.compile platformDir = ${platformDirectory}`);
+  log(`compiler.compile platformDir = ${platformDirectory}`);
   return new Promise((resolve, reject) => {
     //---- setup dir and config ----//
     let config = GB.board.board_info;
@@ -113,6 +116,7 @@ function compile(rawCode, boardName, config, cb) {
             !codeContext.plugins_includes_switch.includes(obj.sourceIncludeDir)
         );
         if (includedPlugin) {
+          log("Include Plugin to compiler => " + includedPlugin.category.name);
           codeContext.plugins_includes_switch.push(includedPlugin.sourceIncludeDir);
           let cppFiles = includedPlugin.sourceFile
             .filter(el=>el.endsWith(".cpp") || el.endsWith(".c"))
@@ -173,7 +177,7 @@ function compile(rawCode, boardName, config, cb) {
     }).then(() => {
       resolve();
     }).catch(msg => {
-      console.log("error msg : " + msg);
+      log("error msg : " + msg);
       reject(msg);
     });
   });
@@ -182,7 +186,7 @@ function compile(rawCode, boardName, config, cb) {
 const compileFiles = async function(
   sources, boardCppOptions, boardcflags, plugins_includes_switch,
   concurrent = 8) {
-  console.log(`arduino-avr compiler.compileFiles`);
+  log('>>> Compile Files ...');
   const queue = new PQueue({ concurrency: concurrent });
 
   return new Promise(async (resolve, reject) => {
@@ -200,28 +204,27 @@ const compileFiles = async function(
 
     debug_opt += " -DARDUINO_" + G.board_context.arch + " -DARDUINO_ARCH_";
 
-    console.log(`arduino-avr/compiler.js`);
-
     fs.copyFileSync(`${platformDir}/main.cpp`, `${G.app_dir}/main.cpp`);
     sources.push(`${G.app_dir}/main.cpp`);
     sources = sources.concat(G.core_files);
     //console.log(G.core_files);
     let exec = async function(file, cmd) {
       try {
-        console.log("comping => " + file);
+        log("Compiling => " + file);
         const { stdout, stderr } = await execPromise(ospath(cmd),
           { cwd: G.process_dir });
         if (!stderr) {
-          console.log(`compiling... ${file} ok.`);
+          log(`Compiled ... ${file} OK.`);
           G.cb(`compiling... ${path.basename(file)} ok.`);
         } else {
-          console.log(`compiling... ${file} ok. (with warnings)`);
+          log(`Compiled... ${file} OK. (with warnings)`);
           G.cb({
             file: path.basename(file),
             error: null
           });
         }
       } catch (e) {
+        log("Compile Error : " + e);
         console.error(`[arduino-avr].compiler.js catch something`, e.error);
         console.error(`[arduino-avr].compiler.js >>> `, e);
         let _e = {
@@ -249,7 +252,7 @@ const compileFiles = async function(
 };
 
 function linkObject(ldflags, extarnal_libflags) {
-  console.log(`linking... ${G.ELF_FILE}`);
+  log(`>>> Linking... ${G.ELF_FILE}`);
   G.cb(`linking... ${G.ELF_FILE}`);
   let flags = G.ldflags.concat(ldflags);
   let libflags = (extarnal_libflags)
@@ -273,7 +276,7 @@ function linkObject(ldflags, extarnal_libflags) {
 }
 
 function archiveProgram(plugins_sources) {
-  console.log(`archiving... ${G.ARCHIVE_FILE} `);
+  log(`>>> Archiving... ${G.ARCHIVE_FILE}`);
   let obj_files = plugins_sources.map(
     plugin => `"${G.app_dir}/${getName(plugin)}.o"`).join(" ");
   var cmd = `"${G.COMPILER_AR}" cru "${G.ARCHIVE_FILE}" ${obj_files}`;
@@ -281,7 +284,7 @@ function archiveProgram(plugins_sources) {
 }
 
 function createBin() {
-  log.i(`creating hex image... ${G.BIN_FILE}`);
+  log(`Creating hex image... ${G.BIN_FILE}`);
   //let eeprom_section = getName(G.ELF_FILE) + ".epp"
   //let hex_section = getName(G.ELF_FILE) + ".hex"
   //let cmd_eeprom = `"${G.COMPILER_OBJCOPY}"  -O ihex -j .eeprom --set-section-flags=.eeprom=alloc,load --no-change-warnings --change-section-lma .eeprom=0 "${G.ELF_FILE}" "${eeprom_section}"`
@@ -296,6 +299,7 @@ function flash(port, baudrate, stdio) {
   let part = G.board_context.mcu || "atmega328p";
   let protocol = G.board_context.protocol || "arduino";
   let cmd = `"${G.COMPILER_AVRDUDE}" -C "${G.AVRDUDE_CONFIG}" -p${part} -c${protocol} -P${port} -b${baudrate} -D -Uflash:w:${G.BIN_FILE}:i`;
+  log(`Flashing ... ${G.BIN_FILE}`);
   return execPromise(ospath(cmd), {
     cwd: G.process_dir,
     stdio
