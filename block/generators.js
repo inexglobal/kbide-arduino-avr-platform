@@ -4,53 +4,65 @@ if(!Blockly.dbNameType){
     Blockly.dbNameType = {};
 }
 
-Blockly.JavaScript.init = function(workspace) {
-    Blockly.JavaScript.definitions_ = Object.create(null);
-    Blockly.JavaScript.functionNames_ = Object.create(null);
-    
-    if (!Blockly.JavaScript.variableDB_) {
-        Blockly.JavaScript.variableDB_ =
-            new Blockly.Names(Blockly.JavaScript.RESERVED_WORDS_);
-    } else {
-        Blockly.JavaScript.variableDB_.reset();
-    }
-    Blockly.JavaScript.variableDB_.setVariableMap(workspace.getVariableMap());
-    var defvars = [];
-    // Add developer variables (not created or named by the user).
-    var devVarList = Blockly.Variables.allDeveloperVariables(workspace);
-    for (var i = 0; i < devVarList.length; i++) {
-		let devVarInfo = Blockly.JavaScript.variableDB_.variableMap_.getVariableById(devVarList[i].getId());
-		if(devVarInfo && !(devVarInfo.type.toLowerCase().startsWith("plugin."))){
-			//if we found plugin variable let ignore them
-			defvars.push(Blockly.JavaScript.variableDB_.getName(devVarList[i],
-				Blockly.Names.DEVELOPER_VARIABLE_TYPE));
-		}
-    }
-    // Add user variables, but only ones that are being used.
-    var variables = Blockly.Variables.allUsedVarModels(workspace);
-    for (var i = 0; i < variables.length; i++) {
-		let devVarInfo = Blockly.JavaScript.variableDB_.variableMap_.getVariableById(variables[i].getId());
-		if(devVarInfo && !(devVarInfo.type.toLowerCase().startsWith("plugin."))){
-			//if we found plugin variable let ignore them
-			defvars.push(Blockly.JavaScript.variableDB_.getName(variables[i].getId(),
-            	Blockly.Variables.NAME_TYPE));
-		}
-        
-	}
-    // Declare all of the variables.
-    if (defvars.length) {
-		var declareVar = [];
-		for(var i =0;i<defvars.length;i++){
-			let vType = (defvars[i] in Blockly.dbNameType) ? Blockly.dbNameType[defvars[i]].type : "int";
-			declareVar.push("#VARIABLE"+vType + " " + defvars[i] + ";#END");
+	Blockly.JavaScript.init = function(workspace) {
+		console.log("here1");
+		Blockly.JavaScript.definitions_ = Object.create(null);
+		Blockly.JavaScript.functionNames_ = Object.create(null);
 
-			Blockly.dbNameType[defvars[i]] = {
-				name : defvars[i], type : vType
-			};
+		if (!Blockly.JavaScript.variableDB_) {
+			Blockly.JavaScript.variableDB_ =
+				new Blockly.Names(Blockly.JavaScript.RESERVED_WORDS_);
+		} else {
+			Blockly.JavaScript.variableDB_.reset();
 		}
-		Blockly.JavaScript.definitions_['variables'] =	declareVar.join("\n");
-    }
-};
+		Blockly.JavaScript.variableDB_.setVariableMap(workspace.getVariableMap());
+		var defvars = [];
+		// Add developer variables (not created or named by the user).
+		var devVarList = Blockly.Variables.allDeveloperVariables(workspace);
+		for (var i = 0; i < devVarList.length; i++) {
+			let devVarInfo = Blockly.JavaScript.variableDB_.variableMap_.getVariableById(devVarList[i].getId());
+			if (devVarInfo && !(devVarInfo.type.toLowerCase().startsWith("plugin."))) {
+				//if we found plugin variable let ignore them
+				defvars.push(Blockly.JavaScript.variableDB_.getName(devVarList[i],
+					Blockly.Names.DEVELOPER_VARIABLE_TYPE));
+			}
+		}
+		// Add user variables, but only ones that are being used.
+		var variables = Blockly.Variables.allUsedVarModels(workspace);
+		for (var i = 0; i < variables.length; i++) {
+			let devVarInfo = Blockly.JavaScript.variableDB_.variableMap_.getVariableById(variables[i].getId());
+			if (devVarInfo && !(devVarInfo.type.toLowerCase().startsWith("plugin."))) {
+				//if we found plugin variable let ignore them
+				defvars.push(Blockly.JavaScript.variableDB_.getName(variables[i].getId(),
+					Blockly.Variables.NAME_TYPE));
+			}
+
+		}
+		// Declare all of the variables.
+		if (defvars.length) {
+			for (var i = 0; i < defvars.length; i++) {
+				let vType = (defvars[i] in Blockly.dbNameType)
+					? Blockly.dbNameType[defvars[i]].type
+					: "int";
+				//declareVar.push("#VARIABLE" + vType + " " + defvars[i] + ";#END");
+
+				Blockly.dbNameType[defvars[i]] = {
+					name: defvars[i], type: vType
+				};
+			}
+			//Blockly.JavaScript.definitions_["variables"] = declareVar.join("\n");
+		}
+	};
+
+	Blockly.JavaScript.finish = function(code){
+		let declareVar = [];
+		for (let i in Blockly.dbNameType) {
+			declareVar.push("#VARIABLE" + Blockly.dbNameType[i].type + " " + Blockly.dbNameType[i].name + ";#END");
+		}
+		//Blockly.JavaScript.definitions_["variables"] = declareVar.join("\n");
+		return declareVar.join("\n") + "\n" +code;
+	};
+
 
 Blockly.JavaScript['arduino_init'] = function(block) {
 	var statements_code = Blockly.JavaScript.statementToCode(block, 'code');
