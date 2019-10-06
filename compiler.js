@@ -69,7 +69,6 @@ const setConfig = (context) => {
 //=====================================//
 
 function compile(rawCode, boardName, config, cb) {
-  log(`compiler.compile platformDir = ${platformDirectory}`);
   return new Promise((resolve, reject) => {
     //---- setup dir and config ----//
     let config = GB.board.board_info;
@@ -80,6 +79,7 @@ function compile(rawCode, boardName, config, cb) {
     let context = JSON.parse(fs.readFileSync(boardDirectory + "/context.json", "utf8"));
     let platformCompiler = engine.util.requireFunc(`${platformDirectory}/compiler`);
 
+    log(`compiler.compile platformDir = ${platformDirectory}`);
     //--- init ---//
     let codegen = null;
     if (fs.existsSync(`${boardDirectory}/codegen.js`)) {
@@ -307,6 +307,7 @@ function flash(port, baudrate, stdio) {
 }
 
 module.exports = {
+  compile,
   setConfig,
   linkObject,
   compileFiles,

@@ -16,6 +16,7 @@ init: function () {
 			      "value": 0
 			    }],
 			    "output": "Number",
+				  "colour": Blockly.Msg.MATH_HUE,
 			    "helpUrl": "%{BKY_MATH_NUMBER_HELPURL}",
 			    "style": "math_blocks",
 			    "tooltip": "%{BKY_MATH_NUMBER_TOOLTIP}",
