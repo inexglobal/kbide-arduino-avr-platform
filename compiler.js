@@ -71,13 +71,11 @@ const setConfig = (context) => {
 function compile(rawCode, boardName, config, cb) {
   return new Promise((resolve, reject) => {
     //---- setup dir and config ----//
-    let config = GB.board.board_info;
-    let boardDirectory = `${engine.util.boardDir}/${config.name}`;
-    let platformDirectory = `${engine.util.platformDir}/${config.platform}`;
+    let boardDirectory = `${engine.util.boardDir}/${GB.board.board_info.name}`;
+    let platformDirectory = `${engine.util.platformDir}/${GB.board.board_info.platform}`;
     let boardIncludeDir = `${boardDirectory}/include`;
     let platformIncludeDir = `${platformDirectory}/include`;
     let context = JSON.parse(fs.readFileSync(boardDirectory + "/context.json", "utf8"));
-    let platformCompiler = engine.util.requireFunc(`${platformDirectory}/compiler`);
 
     log(`compiler.compile platformDir = ${platformDirectory}`);
     //--- init ---//
@@ -164,16 +162,16 @@ function compile(rawCode, boardName, config, cb) {
     };
 
     inc_src.push(`${app_dir}/user_app.cpp`);
-    platformCompiler.setConfig(contextBoard);
+    setConfig(contextBoard);
 
-    platformCompiler.compileFiles(inc_src, [], cflags, inc_switch)
+    compileFiles(inc_src, [], cflags, inc_switch)
       .then(() => {
         //return platformCompiler.archiveProgram(inc_src);
         //return engine.util.promiseTimeout(1000);
         //}).then(() => {
-        return platformCompiler.linkObject(ldflags, libflags);
+        return linkObject(ldflags, libflags);
       }).then(() => {
-      return platformCompiler.createBin();
+      return createBin();
     }).then(() => {
       resolve();
     }).catch(msg => {
