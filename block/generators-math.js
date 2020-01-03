@@ -3,7 +3,13 @@ module.exports = function(Blockly){
 
 Blockly.JavaScript['math_number'] = function(block) {
   // Numeric value.
-  var code = parseFloat(block.getFieldValue('NUM'));
+	var value = block.getFieldValue("NUM");
+	if(value.includes(".")){ //floating point number
+		block.setOutput(true,["double","Number"]);
+	}else{
+		block.setOutput(true,["Number"]);
+	}
+	var code = parseFloat(value);
   var order = code >= 0 ? Blockly.JavaScript.ORDER_ATOMIC :
               Blockly.JavaScript.ORDER_UNARY_NEGATION;
   return [code, order];
@@ -12,7 +18,7 @@ Blockly.JavaScript['math_number'] = function(block) {
 Blockly.JavaScript['math_random_int'] = function(block) {
     var num1 = block.getFieldValue('FROM') || '0';
     var num2 = block.getFieldValue('TO') || '0';
-	
+
 	console.log(num1, num2)
 	if (num2 > num1){
         var code = 'rand() % ' + num2 + ' + ' + num1;
@@ -98,7 +104,7 @@ Blockly.JavaScript['math_round'] = function(block) {
 	var operator = block.getFieldValue('OP');
     var code;
 	var arg = Blockly.JavaScript.valueToCode(block, 'NUM', Blockly.JavaScript.ORDER_ASSIGNMENT) || '0';
-	
+
 	switch (operator) {
 		case 'ROUND':
 			code = '(double)round(' + arg + ')';
