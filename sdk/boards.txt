@@ -4,6 +4,204 @@ menu.cpu=Processor
 
 ##############################################################
 
+ATX2M.name=ATX-2
+ATX2M.upload.tool=avrdude
+ATX2M.upload.protocol=arduino
+ATX2M.upload.maximum_size=63488
+ATX2M.upload.maximum_data_size=4096
+ATX2M.upload.speed=115200
+ATX2M.bootloader.low_fuses=0xFF
+ATX2M.bootloader.high_fuses=0xDE
+ATX2M.bootloader.extended_fuses=0xFD
+ATX2M.bootloader.file=optiboot_atmega644p20.hex
+ATX2M.bootloader.unlock_bits=0x3F
+ATX2M.bootloader.lock_bits=0x2F
+ATX2M.build.mcu=atmega644p
+ATX2M.build.f_cpu=20000000L
+ATX2M.build.core=arduino
+ATX2M.build.board=AVR_ATX2M
+ATX2M.build.variant=ATX2
+
+##############################################################
+
+POP-X2.name=POP-X2
+POP-X2.upload.tool=avrdude
+POP-X2.upload.protocol=arduino
+POP-X2.upload.maximum_size=63488
+POP-X2.upload.maximum_data_size=4096
+POP-X2.upload.speed=115200
+POP-X2.bootloader.low_fuses=0xFF
+POP-X2.bootloader.high_fuses=0xDE
+POP-X2.bootloader.extended_fuses=0xFD
+POP-X2.bootloader.file=optiboot_popx2.hex
+POP-X2.bootloader.unlock_bits=0x3F
+POP-X2.bootloader.lock_bits=0x2F
+POP-X2.build.mcu=atmega644p
+POP-X2.build.f_cpu=20000000L
+POP-X2.build.core=arduino
+POP-X2.build.board=AVR_POP-X2
+POP-X2.build.variant=IPST-SE
+
+##############################################################
+
+POP-7.name=POP-7
+POP-7.upload.tool=avrdude
+POP-7.upload.protocol=arduino
+
+POP-7.upload.speed=115200
+POP-7.bootloader.low_fuses=0xFF
+POP-7.bootloader.high_fuses=0xDE
+POP-7.bootloader.extended_fuses=0xFD
+POP-7.bootloader.file=optiboot_popx2.hex
+POP-7.bootloader.unlock_bits=0x3F
+POP-7.bootloader.lock_bits=0x2F
+
+POP-7.build.f_cpu=20000000L
+POP-7.build.core=arduino
+
+POP-7.build.mcu=atmega644p
+POP-7.upload.maximum_size=63488
+POP-7.upload.maximum_data_size=4096
+POP-7.build.board=AVR_POP-7
+POP-7.build.variant=IPST-SE
+
+##############################################################
+
+UnoB.name=i-Duino UNO R3B
+UnoB.vid.0=0x2341
+UnoB.pid.0=0x0043
+UnoB.vid.1=0x2341
+UnoB.pid.1=0x0001
+UnoB.vid.2=0x2a03
+UnoB.pid.2=0x0043
+
+UnoB.upload.tool=avrdude
+UnoB.upload.protocol=arduino
+UnoB.upload.maximum_size=32256
+UnoB.upload.maximum_data_size=2048
+#UnoB.upload.speed=115200
+UnoB.upload.speed=57600
+
+UnoB.bootloader.tool=avrdude
+UnoB.bootloader.low_fuses=0xff
+UnoB.bootloader.high_fuses=0xd6
+UnoB.bootloader.extended_fuses=0x05
+UnoB.bootloader.unlock_bits=0x3F
+UnoB.bootloader.lock_bits=0x2F
+UnoB.bootloader.file=optiboot_m328pb.hex
+
+UnoB.build.mcu=atmega328pb
+UnoB.build.f_cpu=16000000L
+UnoB.build.board=AVR_UNO
+UnoB.build.core=arduino
+UnoB.build.variant=atmega328pb
+
+##############################################################
+
+unicon.name=Unicon board
+unicon.vid.0=0x2341
+unicon.pid.0=0x0036
+unicon.vid.1=0x2341
+unicon.pid.1=0x8036
+unicon.upload.tool=avrdude
+unicon.upload.protocol=avr109
+unicon.upload.maximum_size=28672
+unicon.upload.speed=57600
+unicon.upload.disable_flushing=true
+unicon.upload.use_1200bps_touch=true
+unicon.upload.wait_for_upload_port=true
+
+unicon.bootloader.low_fuses=0xff
+unicon.bootloader.high_fuses=0xd8
+unicon.bootloader.extended_fuses=0xcb
+unicon.bootloader.file=caterinaUnicon/newUnicon.hex
+unicon.bootloader.unlock_bits=0x3F
+unicon.bootloader.lock_bits=0x2F
+unicon.build.mcu=atmega32u4
+unicon.build.f_cpu=16000000L
+unicon.build.vid=0x2341
+unicon.build.pid=0x8036
+unicon.build.core=arduino
+unicon.build.variant=unicon
+unicon.build.usb_product="Arduino Leonardo"
+unicon.build.board=AVR_LEONARDO
+unicon.build.extra_flags={build.usb_flags}
+
+##############################################################
+
+popxt.name=POP-XT
+popxt.vid.0=0x2341
+popxt.pid.0=0x0036
+popxt.vid.1=0x2341
+popxt.pid.1=0x8036
+popxt.upload.tool=avrdude
+popxt.upload.protocol=avr109
+popxt.upload.maximum_size=28672
+popxt.upload.speed=57600
+popxt.upload.disable_flushing=true
+popxt.upload.use_1200bps_touch=true
+popxt.upload.wait_for_upload_port=true
+
+popxt.bootloader.low_fuses=0xff
+popxt.bootloader.high_fuses=0xd8
+popxt.bootloader.extended_fuses=0xcb
+popxt.bootloader.file=caterinaPOPXT/newPOPXT.hex
+popxt.bootloader.unlock_bits=0x3F
+popxt.bootloader.lock_bits=0x2F
+popxt.build.mcu=atmega32u4
+popxt.build.f_cpu=16000000L
+popxt.build.vid=0x2341
+popxt.build.pid=0x8036
+popxt.build.core=arduino
+popxt.build.variant=unicon
+popxt.build.usb_product="Arduino Leonardo"
+popxt.build.board=AVR_LEONARDO
+popxt.build.extra_flags={build.usb_flags}
+
+##############################################################
+
+POP168.name=POP-168 or RXB-168 (POP-BOT)
+
+POP168.upload.tool=avrdude
+POP168.upload.protocol=arduino
+POP168.upload.maximum_size=14336
+POP168.upload.speed=19200
+
+POP168.bootloader.low_fuses=0xfe
+POP168.bootloader.high_fuses=0xdd
+POP168.bootloader.extended_fuses=0xf8
+POP168.bootloader.file=ATmegaBOOT_POP168.hex
+POP168.bootloader.unlock_bits=0x3F
+POP168.bootloader.lock_bits=0x0F
+
+POP168.build.mcu=atmega168
+POP168.build.f_cpu=16000000L
+POP168.build.core=arduino
+POP168.build.board=AVR_POP168
+POP168.build.variant=standard
+
+##############################################################
+
+IPST-SE.name=IPST-SE
+IPST-SE.upload.tool=avrdude
+IPST-SE.upload.protocol=wiring
+IPST-SE.upload.maximum_size=63488
+IPST-SE.upload.maximum_data_size=4096
+IPST-SE.upload.speed=115200
+IPST-SE.bootloader.low_fuses=0xF7
+IPST-SE.bootloader.high_fuses=0xD4
+IPST-SE.bootloader.extended_fuses=0xFD
+IPST-SE.bootloader.file=WiringBoot_IPST-SE.hex
+IPST-SE.bootloader.unlock_bits=0x3F
+IPST-SE.bootloader.lock_bits=0x2F
+IPST-SE.build.mcu=atmega644p
+IPST-SE.build.f_cpu=16000000L
+IPST-SE.build.core=arduino
+IPST-SE.build.board=AVR_IPST-SE
+IPST-SE.build.variant=IPST-SE
+
+##############################################################
+
 yun.name=Arduino Yún
 yun.upload.via_ssh=true
 
@@ -46,7 +244,7 @@ yun.build.extra_flags={build.usb_flags}
 
 ##############################################################
 
-uno.name=Arduino/Genuino Uno
+uno.name=Arduino Uno
 
 uno.vid.0=0x2341
 uno.pid.0=0x0043
@@ -185,7 +383,7 @@ nano.menu.cpu.atmega168.build.mcu=atmega168
 
 ##############################################################
 
-mega.name=Arduino/Genuino Mega or Mega 2560
+mega.name=Arduino Mega or Mega 2560
 
 mega.vid.0=0x2341
 mega.pid.0=0x0010
@@ -214,7 +412,7 @@ mega.build.variant=mega
 # default board may be overridden by the cpu menu
 mega.build.board=AVR_MEGA2560
 
-## Arduino/Genuino Mega w/ ATmega2560
+## Arduino Mega w/ ATmega2560
 ## -------------------------
 mega.menu.cpu.atmega2560=ATmega2560 (Mega 2560)
 
@@ -353,7 +551,7 @@ leonardoeth.build.extra_flags={build.usb_flags}
 
 ##############################################################
 
-micro.name=Arduino/Genuino Micro
+micro.name=Arduino Micro
 
 micro.vid.0=0x2341
 micro.pid.0=0x0037
@@ -363,24 +561,10 @@ micro.vid.2=0x2A03
 micro.pid.2=0x0037
 micro.vid.3=0x2A03
 micro.pid.3=0x8037
-
 micro.vid.4=0x2341
 micro.pid.4=0x0237
-# If the board is a 2341:0237 use 2341:8237 for build and set
-# other parameters as well
-micro.vid.4.build.vid=0x2341
-micro.vid.4.build.pid=0x8237
-micro.vid.4.build.usb_product="Genuino Micro"
-micro.vid.4.bootloader.file=caterina/Caterina-Genuino-Micro.hex
-
 micro.vid.5=0x2341
 micro.pid.5=0x8237
-# If the board is a 2341:8237 use 2341:8237 for build and set
-# other paramters as well
-micro.vid.5.build.vid=0x2341
-micro.vid.5.build.pid=0x8237
-micro.vid.5.build.usb_product="Genuino Micro"
-micro.vid.5.bootloader.file=caterina/Caterina-Genuino-Micro.hex
 
 micro.upload.tool=avrdude
 micro.upload.protocol=avr109
@@ -946,7 +1130,7 @@ yunmini.bootloader.tool=avrdude
 yunmini.bootloader.low_fuses=0xff
 yunmini.bootloader.high_fuses=0xd8
 yunmini.bootloader.extended_fuses=0xfb
-yunmini.bootloader.file=caterina/Caterina-Yunmini.hex
+yunmini.bootloader.file=caterina/Caterina-YunMini.hex
 yunmini.bootloader.unlock_bits=0x3F
 yunmini.bootloader.lock_bits=0x2F
 

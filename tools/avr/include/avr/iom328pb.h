@@ -1,6 +1,6 @@
 /*****************************************************************************
  *
- * Copyright (C) 2017 Atmel Corporation, a wholly owned subsidiary of Microchip Technology Inc.
+ * Copyright (C) 2019 Atmel Corporation, a wholly owned subsidiary of Microchip Technology Inc.
  * All rights reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,9 +16,12 @@
  * limitations under the License.
  ****************************************************************************/
 
+#ifndef _AVR_IOM328PB_H_
+#define _AVR_IOM328PB_H_ 1
 
 #ifndef _AVR_ATMEGA328PB_H_INCLUDED
 #define _AVR_ATMEGA328PB_H_INCLUDED
+#endif
 
 
 #ifndef _AVR_IO_H_
@@ -214,11 +217,15 @@
 #define TOV3    0
 #define OCF3A   1
 #define OCF3B   2
+#define IC3F    5
+#define ICF3    5
 
 #define TIFR4   _SFR_IO8(0x19)
 #define TOV4    0
 #define OCF4A   1
 #define OCF4B   2
+#define IC4F    5
+#define ICF4    5
 
 /* Reserved [0x1A] */
 
@@ -287,6 +294,8 @@
 
 #define GPIOR2  _SFR_IO8(0x2B)
 
+#define SPCR   _SFR_IO8(0x2C)
+
 #define SPCR0   _SFR_IO8(0x2C)
 #define SPR0    0
 #define SPR1    1
@@ -297,13 +306,18 @@
 #define SPE     6
 #define SPIE    7
 
+#define SPSR   _SFR_IO8(0x2D)
+
 #define SPSR0   _SFR_IO8(0x2D)
 #define SPI2X   0
 #define WCOL    6
 #define SPIF    7
 
+#define SPDR   _SFR_IO8(0x2E)
+
 #define SPDR0   _SFR_IO8(0x2E)
 
+/* Reserved [0x2F] */
 #define ACSRB   _SFR_IO8(0x2F)
 #define ACOE    0
 
@@ -319,7 +333,11 @@
 #define ACBG    6
 #define ACD     7
 
-/* Reserved [0x31..0x32] */
+
+#define ACSRB   _SFR_IO8(0x31)
+#define ACOE    7
+
+/* Reserved [0x32] */
 
 #define SMCR    _SFR_IO8(0x33)
 #define SE      0
@@ -474,6 +492,11 @@
 #define TOIE0   0
 #define OCIE0A  1
 #define OCIE0B  2
+
+#define TOIE    0
+#define OCIEA   1
+#define OCIEB   2
+#define ICIE    5
 
 #define TIMSK1  _SFR_MEM8(0x6F)
 #define TOIE1   0
@@ -753,7 +776,11 @@
 
 /* Reserved [0xB7] */
 
+#define TWBR   _SFR_MEM8(0xB8)
+
 #define TWBR0   _SFR_MEM8(0xB8)
+
+#define TWSR   _SFR_MEM8(0xB9)
 
 #define TWSR0   _SFR_MEM8(0xB9)
 #define TWPS0   0
@@ -763,6 +790,8 @@
 #define TWS5    5
 #define TWS6    6
 #define TWS7    7
+
+#define TWAR   _SFR_MEM8(0xBA)
 
 #define TWAR0   _SFR_MEM8(0xBA)
 #define TWGCE   0
@@ -774,7 +803,11 @@
 #define TWA5    6
 #define TWA6    7
 
+#define TWDR   _SFR_MEM8(0xBB)
+
 #define TWDR0   _SFR_MEM8(0xBB)
+
+#define TWCR   _SFR_MEM8(0xBC)
 
 #define TWCR0   _SFR_MEM8(0xBC)
 #define TWIE    0
@@ -784,6 +817,8 @@
 #define TWSTA   5
 #define TWEA    6
 #define TWINT   7
+
+#define TWAMR  _SFR_MEM8(0xBD)
 
 #define TWAMR0  _SFR_MEM8(0xBD)
 #define TWAM0   1
@@ -827,10 +862,16 @@
 #define UMSEL01 7
 
 #define UCSR0D  _SFR_MEM8(0xC3)
-#define SFDE    5
-#define RXS     6
-#define RXSIE   7
 
+
+
+
+
+
+
+#define SFDE0   5
+#define RXS0    6
+#define RXSIE0  7
 /* Combine UBRR0L and UBRR0H */
 #define UBRR0   _SFR_MEM16(0xC4)
 
@@ -842,6 +883,14 @@
 /* Reserved [0xC7] */
 
 #define UCSR1A  _SFR_MEM8(0xC8)
+#define MPCM    0
+#define U2X     1
+#define UPE     2
+#define DOR     3
+#define FE      4
+#define UDRE    5
+#define TXC     6
+#define RXC     7
 #define MPCM1   0
 #define U2X1    1
 #define UPE1    2
@@ -852,6 +901,14 @@
 #define RXC1    7
 
 #define UCSR1B  _SFR_MEM8(0xC9)
+#define TXB8    0
+#define RXB8    1
+#define UCSZ2   2
+#define TXEN    3
+#define RXEN    4
+#define UDRIE   5
+#define TXCIE   6
+#define RXCIE   7
 #define TXB81   0
 #define RXB81   1
 #define UCSZ12  2
@@ -862,16 +919,32 @@
 #define RXCIE1  7
 
 #define UCSR1C  _SFR_MEM8(0xCA)
+#define UCPOL   0
+#define UCSZ0   1
+#define UCSZ1   2
+#define USBS    3
 #define UCPOL1  0
 #define UCSZ10  1
 #define UCSZ11  2
 #define USBS1   3
+
+#define UPM0    4
+#define UPM1    5
+
 #define UPM10   4
 #define UPM11   5
+
+#define UMSEL0  6
+#define UMSEL1  7
+
 #define UMSEL10 6
 #define UMSEL11 7
 
 #define UCSR1D  _SFR_MEM8(0xCB)
+#define SFDE    5
+#define RXS     6
+#define RXSIE   7
+
 #define SFDE1   5
 #define RXS1    6
 #define RXSIE1  7
@@ -1109,21 +1182,44 @@
 #define TIMER4_OVF_vect            _VECTOR(44)
 #define TIMER4_OVF_vect_num        44
 
-#define _VECTORS_SIZE 180
+#if (defined(__ASSEMBLER__) || defined(__IAR_SYSTEMS_ASM__))
+#  define _VECTORS_SIZE 180
+#else
+#  define _VECTORS_SIZE 180U
+#endif
 
 
 /* Constants */
 
-#define SPM_PAGESIZE 128
-#define FLASHSTART   0x0000
-#define FLASHEND     0x7FFF
-#define RAMSTART     0x0100
-#define RAMSIZE      2048
-#define RAMEND       0x08FF
-#define E2START     0
-#define E2SIZE      1024
-#define E2PAGESIZE  4
-#define E2END       0x03FF
+#if (defined(__ASSEMBLER__) || defined(__IAR_SYSTEMS_ASM__))
+#  define SPM_PAGESIZE 128
+#  define FLASHSTART   0x0000
+#  define FLASHEND     0x7FFF
+#else
+#  define SPM_PAGESIZE 128U
+#  define FLASHSTART   0x0000U
+#  define FLASHEND     0x7FFFU
+#endif
+#if (defined(__ASSEMBLER__) || defined(__IAR_SYSTEMS_ASM__))
+#  define RAMSTART     0x0100
+#  define RAMSIZE      2048
+#  define RAMEND       0x08FF
+#else
+#  define RAMSTART     0x0100U
+#  define RAMSIZE      2048U
+#  define RAMEND       0x08FFU
+#endif
+#if (defined(__ASSEMBLER__) || defined(__IAR_SYSTEMS_ASM__))
+#  define E2START     0
+#  define E2SIZE      1024
+#  define E2PAGESIZE  4
+#  define E2END       0x03FF
+#else
+#  define E2START     0U
+#  define E2SIZE      1024U
+#  define E2PAGESIZE  4U
+#  define E2END       0x03FFU
+#endif
 #define XRAMEND      RAMEND
 
 
@@ -1160,6 +1256,7 @@
 #define FUSE_BODLEVEL1   (unsigned char)~_BV(1)
 #define FUSE_BODLEVEL2   (unsigned char)~_BV(2)
 #define FUSE_CFD         (unsigned char)~_BV(3)
+////#define EFUSE_DEFAULT    (0xFF)
 #define EFUSE_DEFAULT    (FUSE_CFD)
 
 
@@ -1178,5 +1275,5 @@
 
 
 
-#endif /* #ifdef _AVR_ATMEGA328PB_H_INCLUDED */
+#endif /* #ifdef _AVR_IOM328PB_H_ */
 

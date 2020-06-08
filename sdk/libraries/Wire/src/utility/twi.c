@@ -396,7 +396,11 @@ void twi_releaseBus(void)
   twi_state = TWI_READY;
 }
 
+#if defined(TWI0_vect)
+ISR(TWI0_vect)
+#else
 ISR(TWI_vect)
+#endif
 {
   switch(TW_STATUS){
     // All Master

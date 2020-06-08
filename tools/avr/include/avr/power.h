@@ -1,5 +1,5 @@
 /* Copyright (c) 2006, 2007, 2008  Eric B. Weddington
-   Copyright (c) 2011 Frï¿½dï¿½ric Nadeau
+   Copyright (c) 2011 Frédéric Nadeau
    All rights reserved.
 
    Redistribution and use in source and binary forms, with or without
@@ -61,7 +61,7 @@ find out which macros are applicable to your device.
 
 \note For device using the XTAL Divide Control Register (XDIV), when prescaler
 is used, Timer/Counter0 can only be used in asynchronous mode. Keep in mind
-that Timer/Counter0 source shall be less than ï¿½th of peripheral clock.
+that Timer/Counter0 source shall be less than ¼th of peripheral clock.
 Therefore, when using a typical 32.768 kHz crystal, one shall not scale
 the clock below 131.072 kHz.
 

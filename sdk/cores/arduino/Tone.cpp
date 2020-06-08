@@ -189,7 +189,7 @@ static int8_t toneBegin(uint8_t _pin)
         break;
       #endif
 
-      #if defined(TCCR3A) && defined(TCCR3B) &&  defined(TIMSK3)
+      #if defined(TCCR3A) && defined(TCCR3B) &&  defined(TIMSK3) &&  defined(WGM32) &&  defined(CS30)
       case 3:
         // 16 bit timer
         TCCR3A = 0;
@@ -201,7 +201,7 @@ static int8_t toneBegin(uint8_t _pin)
         break;
       #endif
 
-      #if defined(TCCR4A) && defined(TCCR4B) &&  defined(TIMSK4)
+      #if defined(TCCR4A) && defined(TCCR4B) &&  defined(TIMSK4) &&  defined(CS40)
       case 4:
         // 16 bit timer
         TCCR4A = 0;

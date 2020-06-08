@@ -20,6 +20,10 @@
   Boston, MA  02111-1307  USA
 
   Modified 28 September 2010 by Mark Sproul
+
+  Modified 19 January 2017 by Worapoht K.
+  Patch work on Timer3B 4B on 328PB's PD2
+
 */
 
 #include "wiring_private.h"
@@ -164,7 +168,7 @@ void analogWrite(uint8_t pin, int val)
 
 			#if defined(TCCR1A) && defined(COM1C1)
 			case TIMER1C:
-				// connect pwm to pin on timer 1, channel B
+				// connect pwm to pin on timer 1, channel C
 				sbi(TCCR1A, COM1C1);
 				OCR1C = val; // set pwm duty
 				break;
@@ -207,6 +211,18 @@ void analogWrite(uint8_t pin, int val)
 				// connect pwm to pin on timer 3, channel B
 				sbi(TCCR3A, COM3B1);
 				OCR3B = val; // set pwm duty
+			//// patch
+                #if defined(__AVR_ATmega328PB__)
+				  // On the ATmega328PB setting COM3B1 activates the OCM
+				  // that defaults to AND mode. Because Timer4B is not 
+				  // activated PD2 will not output anything. We now have 
+				  // two options:
+				  // - also start Timer4B with identical settings
+				  // - set PORTD2 to activate OR mode
+				  // Lets go for the second option.
+				  sbi(PORTD,2);
+		        #endif
+			//// end patch
 				break;
 			#endif
 
@@ -234,6 +250,18 @@ void analogWrite(uint8_t pin, int val)
 				// connect pwm to pin on timer 4, channel B
 				sbi(TCCR4A, COM4B1);
 				OCR4B = val; // set pwm duty
+            //// patch
+				#if defined(__AVR_ATmega328PB__)
+				  // On the ATmega328PB setting COM4B1 activates the OCM
+				  // that defaults to AND mode. Because Timer3B is not 
+				  // activated PD2 will not output anything. We now have 
+				  // two options:
+				  // - also start Timer3B with identical settings
+				  // - set PORTD2 to activate OR mode
+				  // Lets go for the second option.
+				  sbi(PORTD,2);
+			    #endif
+			//// end patch
 				break;
 			#endif
 

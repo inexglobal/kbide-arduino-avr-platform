@@ -57,6 +57,12 @@ ISR(TIMER0_OVF_vect)
 		m += 1;
 	}
 
+	// patch 1,000,000,000 ms revolution
+	if (m >= 0x3B9ACA00){
+		m=0;
+	}
+	//
+
 	timer0_fract = f;
 	timer0_millis = m;
 	timer0_overflow_count++;
